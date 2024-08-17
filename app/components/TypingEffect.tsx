@@ -1,4 +1,6 @@
 // TypingEffect.tsx
+
+
 import { marked } from 'marked';
 import { useState, useEffect } from 'react';
 
@@ -18,9 +20,10 @@ const TypingEffect: React.FC<TypingEffectProps> = ({ text, speed = 5, isClicked}
   useEffect(() => {
     let index = 0;
     const interval = setInterval(() => {
-      setDisplayedText((prev) => prev + text[index]);
-      index += 1;
-      if (index === text.length) {
+      if (index < text.length) {
+        setDisplayedText((prev) => prev + (text[index] || ''));
+        index += 1;
+      } else {
         clearInterval(interval);
       }
     }, speed);
