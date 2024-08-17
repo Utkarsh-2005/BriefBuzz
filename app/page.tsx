@@ -1,113 +1,225 @@
-import Image from "next/image";
+"use client"
 
-export default function Home() {
+import { signIn, signOut, useSession } from 'next-auth/react'
+import axios from 'axios';
+import { useEffect, useRef, useState } from 'react';
+import {
+  GoogleGenerativeAI,
+  HarmCategory,
+  HarmBlockThreshold,
+} from "@google/generative-ai";
+import { VertexAI } from '@google-cloud/vertexai';
+import { GetServerSideProps } from 'next';
+import { marked } from 'marked';
+import TypingEffect from './components/TypingEffect';
+import "./typingeffect.css"
+
+
+// const apiKey = process.env.NEXT_PUBLIC_GEMINI_API_KEY;
+// if (!apiKey) {
+//   throw new Error('NEXT_PUBLIC_GEMINI_API_KEY is not defined in the environment variables.');
+// }
+
+// const genAI = new GoogleGenerativeAI(apiKey);
+
+// const model = genAI.getGenerativeModel({
+//   model: "gemini-1.5-flash",
+// });
+
+// const generationConfig = {
+//   temperature: 1,
+//   topP: 0.95,
+//   topK: 64,
+//   maxOutputTokens: 8192,
+//   responseMimeType: "text/plain",
+// };
+type Response = {
+  _id: string;
+  twoHundred: string;
+  threeFifty: string;
+  fiveHundred: string;
+  oneThousand: string;
+  createdAt: string;
+};
+
+
+const Home  = () => {
+  const { data: session } = useSession(); 
+  const [text, setText] = useState("Please select");
+  const [data, setData] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(true);
+  const [response, setResponse] = useState<Response | null>(null);
+  const [clicked, setClicked] = useState(0);
+
+
+  const styles: React.CSSProperties & { [key: string]: string | number } = {
+    "--n": 50,
+  };
+  
+
+
+  useEffect(() => {
+    async function fetchArticles() {
+      const date = new Date().toISOString().split('T')[0]; // Format the current date as YYYY-MM-DD
+      console.log(date)
+      try {
+        const response = await fetch(`/api/req?date=${date}`);
+                // const res = await fetch('http://localhost:3000/api/cron');
+
+        // const response2 = await fetch(`/api/cron`);
+        const data: Response[] = await response.json();
+        if (data.length > 0) {
+          setResponse(data[0]); // Access the first item in the list
+        }
+
+      
+        setLoading(false);
+      } catch (error) {
+        console.error('Error fetching articles:', error);
+        setLoading(false);
+      }
+    }
+
+    fetchArticles();
+  }, []);
+
+  const twoHundredHandler = () => {
+    if (clicked != 200){
+      setClicked(200)
+    }
+    // Optionally reset after some time or based on other logic
+    // setTimeout(() => setClicked(false), 100);
+    if (response?.twoHundred){
+      setText(response.twoHundred.replace(/ \* /g, ' '));
+    }
+  }
+
+  
+  const threeFiftyHandler = () => {
+    if (clicked != 300){
+      setClicked(300)
+    }
+    if (response?.threeFifty){
+      setText(response.threeFifty.replace(/ \* /g, ' '))
+    }
+  }
+
+  
+  const fiveHundredHandler = () => {
+    if (clicked != 500){
+      setClicked(500)
+    }
+    if (response?.fiveHundred){
+      setText(response.fiveHundred.replace(/ \* /g, ' '))
+    }
+  }
+
+  
+  const oneThousandHandler = () => {
+    if (clicked != 1000){
+      setClicked(1000)
+    }
+    if (response?.oneThousand){
+      setText(response.oneThousand.replace(/ \* /g, ' '))
+    }
+  }
+
+
+  // async function run(prompt:string) {
+  //   const chatSession = model.startChat({
+  //     generationConfig,
+  //  // safetySettings: Adjust safety settings
+  //  // See https://ai.google.dev/gemini-api/docs/safety-settings
+  //     history: [
+  //     ],
+  //   });
+  
+  //   const result = await chatSession.sendMessage(prompt);
+  //   console.log(result.response.text());
+  //   setResponse(result.response.text())
+  // }
+  
+  // const testHandler = async () => {
+  //   const newPrompt = prompt+". Summarize all this news in 500 words.";
+  //   setPrompt(newPrompt);
+  //   // run(newPrompt);
+  // }
+//   useEffect(() => {
+//     axios.get(`https://newsapi.org/v2/everything?q=tesla&from=2024-06-20&sortBy=publishedAt&apiKey=2d6a75aacad645469ef07fbdf13cb522
+// `)
+//     .then(response => {
+//       console.log(response.data)
+//       setPrompt(JSON.stringify(response.data))
+//     })
+//     .catch(error => {
+//       console.log(error)
+//     })
+//   }, [prompt]);
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const res = await fetch('http://localhost:3000/api/cron');
+  //       if (!res.ok) {
+  //         throw new Error('Failed to fetch data');
+  //       }
+  //       const data = await res.json();
+  //       setData(JSON.stringify(data).replace(/^"|"$/g, '') );
+  //       setLoading(false)
+  //     } catch (error: any) {
+  //       console.log(error.message);}
+  //   };
+
+  //   fetchData();
+  // }, []);
+  
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">app/page.tsx</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:size-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
-
-      <div className="relative z-[-1] flex place-items-center before:absolute before:h-[300px] before:w-full before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-full after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 sm:before:w-[480px] sm:after:w-[240px] before:lg:h-[360px]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className="mb-32 grid text-center lg:mb-0 lg:w-full lg:max-w-5xl lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Docs{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Learn{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Templates{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Explore starter templates for Next.js.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Deploy{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-balance text-sm opacity-50">
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
-  );
+    <div className='min-h-screen bg-gray-100"'>
+    <div className="shadow-lg fixed w-full z-10 top-0 flex justify-between items-between">
+     <h1>Welcome to My App</h1>
+     {session ? (
+       <div>
+         <p>Signed in as {session.user?.email}</p>
+         <button onClick={() => signOut()}>Sign out</button>
+       </div>
+     ) : (
+       <>
+       {/* <button onClick={() => signIn('google')}>Sign in with Baby</button> */}
+       <div className="flex items-center justify-center">
+   <button className="px-4 py-2 border flex gap-2 border-slate-200 dark:border-slate-700 rounded-lg text-slate-700 dark:text-slate-200 hover:border-slate-400 dark:hover:border-slate-500 hover:text-slate-900 dark:hover:text-slate-300 hover:shadow transition duration-150 bg-slate-600" onClick={() => signIn('google')}>
+       <img className="w-6 h-6" src="https://www.svgrepo.com/show/475656/google-color.svg" loading="lazy" alt="google logo"/>
+       <span>Login with Google</span>
+   </button>
+</div>
+       </>
+     )}
+     </div>
+     <main className="pt-20">
+     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+     <div className="flex">
+      <button className='text-white m-2 bg-slate-500 p-1 px-[20px] rounded hover:bg-slate-600 duration-75 shadow-lg' onClick={twoHundredHandler}>200 Words</button>
+      <button className='text-white m-2 bg-slate-500 p-1 px-[20px] rounded hover:bg-slate-600 duration-75 shadow-lg' onClick={threeFiftyHandler}>350 Words</button>
+      <button className='text-white m-2 bg-slate-500 p-1 px-[20px] rounded hover:bg-slate-600 duration-75 shadow-lg' onClick={fiveHundredHandler}>500 Words</button>
+      <button className='text-white m-2 bg-slate-500 p-1 px-[20px] rounded hover:bg-slate-600 duration-75 shadow-lg' onClick={oneThousandHandler}>1000 Words</button>
+     </div>
+     {/* <p>{response}</p> */}
+     {loading ? (
+            <p>Loading...</p>
+          ) : (
+            response && (
+              <>
+        
+                  {/* <p dangerouslySetInnerHTML={{ __html: marked(text) }}></p> */}
+                <TypingEffect text={text} isClicked={clicked} />
+              </>
+            )
+          )}
+     </div>
+     </main>
+   </div>
+ 
+  
+  )
 }
+
+
+export default Home;
