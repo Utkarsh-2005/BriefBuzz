@@ -174,7 +174,7 @@ const Home  = () => {
   
   return (
     <div className='min-h-screen bg-gray-100"'>
-    <div className="shadow-lg fixed w-full z-10 top-0 flex justify-between items-between">
+    <div className="shadow-lg fixed w-full z-10 top-0 flex justify-between items-between bg-white">
      <h1>Welcome to My App</h1>
      {session ? (
        <div>
