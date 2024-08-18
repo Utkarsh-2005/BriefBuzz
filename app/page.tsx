@@ -145,10 +145,10 @@ const Home  = () => {
      )}
      </div>
      <main className="pt-20">
-     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col items-center">
+     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col items-center justify-center">
      <SignInAlert  isOpen={isEditOpen}
         setIsOpen={setIsEditOpen}/>
-     <div className="flex">
+     <div className="sm:flex-row flex-col items-center justify-center">
       <button className='text-white m-2 bg-slate-500 p-1 px-[20px] rounded hover:bg-slate-600 duration-75 shadow-lg' onClick={twoHundredHandler}>200 Words</button>
       <button className='text-white m-2 bg-slate-500 p-1 px-[20px] rounded hover:bg-slate-600 duration-75 shadow-lg' onClick={threeFiftyHandler}>350 Words</button>
       <button className='text-white m-2 bg-slate-500 p-1 px-[20px] rounded hover:bg-slate-600 duration-75 shadow-lg' onClick={fiveHundredHandler}>500 Words</button>
