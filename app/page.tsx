@@ -148,11 +148,11 @@ const Home  = () => {
      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col items-center justify-center">
      <SignInAlert  isOpen={isEditOpen}
         setIsOpen={setIsEditOpen}/>
-     <div className='w-full flex sm:flex-row flex-col'>
-      <button className='text-white sm:m-2 bg-slate-500 p-1 sm:px-[20px] rounded hover:bg-slate-600 duration-75 shadow-lg' onClick={twoHundredHandler}>200 Words</button>
-      <button className='text-white sm:m-2 bg-slate-500 p-1 sm:px-[20px] rounded hover:bg-slate-600 duration-75 shadow-lg' onClick={threeFiftyHandler}>350 Words</button>
-      <button className='text-white sm:m-2 bg-slate-500 p-1 sm:px-[20px] rounded hover:bg-slate-600 duration-75 shadow-lg' onClick={fiveHundredHandler}>500 Words</button>
-      <button className='text-white sm:m-2 bg-slate-500 p-1 sm:px-[20px] rounded hover:bg-slate-600 duration-75 shadow-lg' onClick={oneThousandHandler}>1000 Words</button>
+     <div className='w-screen flex sm:flex-row flex-col justify-center items-center'>
+      <button className='text-white m-2 bg-slate-500 p-1 px-[20px] rounded hover:bg-slate-600 duration-75 shadow- max-w-[250px]' onClick={twoHundredHandler}>200 Words</button>
+      <button className='text-white m-2 bg-slate-500 p-1 px-[20px] rounded hover:bg-slate-600 duration-75 shadow-lg max-w-[250px]' onClick={threeFiftyHandler}>350 Words</button>
+      <button className='text-white m-2 bg-slate-500 p-1 px-[20px] rounded hover:bg-slate-600 duration-75 shadow-lg max-w-[250px]' onClick={fiveHundredHandler}>500 Words</button>
+      <button className='text-white m-2 bg-slate-500 p-1 px-[20px] rounded hover:bg-slate-600 duration-75 shadow- max-w-[250px]' onClick={oneThousandHandler}>1000 Words</button>
      </div>
      {/* <p>{response}</p> */}
      {loading ? (
