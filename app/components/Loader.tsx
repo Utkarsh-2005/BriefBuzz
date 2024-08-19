@@ -14,11 +14,12 @@ const Loader: React.FC = () => {
   }, []);
 
   return (
-    <div className={`loader-container ${fadeOut ? 'fade-out' : ''} bg-yellow-400 flex flex-col`}>
+    <div className={`loader-container ${fadeOut ? 'fade-out' : ''} bg-yellow-400 flex flex-col select-none`}>
       <img src="/logo.jpeg" alt="Logo" className="loader-logo rounded-md w-[20vh]" />
       <div className="progress mt-[10px] w-[21vh] h-[2.5vh]">
         <div className="progress-value h-[1.875vh]"></div>
       </div>
+      <p className='text-[2vh] font-bold mt-[2.5px]'>Your daily news fix</p>
     </div>
   );
 };
