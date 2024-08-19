@@ -14,6 +14,7 @@ import { marked } from 'marked';
 import TypingEffect from './components/TypingEffect';
 import "./typingeffect.css"
 import SignInAlert from './components/SignInAlert';
+import Loader from './components/Loader';
 
 
 type Response = {
@@ -35,12 +36,30 @@ const Home  = () => {
   const [clicked, setClicked] = useState(0);
   const [isEditOpen, setIsEditOpen] = useState(false);
   const isAuthenticated = status === 'authenticated';
+  const [screenLoading, setScreenLoading] = useState(true);
+  const [contentVisible, setContentVisible] = useState(false);
 
 
   const styles: React.CSSProperties & { [key: string]: string | number } = {
     "--n": 50,
   };
   
+  useEffect(() => {
+    // Set a timer to start fading out the loader after 2.5 seconds
+    const timer1 = setTimeout(() => {
+      setLoading(false);
+    }, 2500);
+
+    // Set another timer to fade in the main content after the loader fades out
+    const timer2 = setTimeout(() => {
+      setContentVisible(true);
+    }, 3500); // 1 second delay after loader fades out
+
+    return () => {
+      clearTimeout(timer1);
+      clearTimeout(timer2);
+    };
+  }, []);
 
 
   useEffect(() => {
@@ -124,7 +143,10 @@ const Home  = () => {
 
   
   return (
-    <div className='min-h-screen bg-gray-100"'>
+    <>
+    {screenLoading && <Loader />}
+
+    <div className= 'min-h-screen main-content'>
     <div className="shadow-lg fixed w-full z-10 top-0 flex justify-between items-center bg-white">
      <h1 className='mx-[10px]'>Brief Buzz</h1>
      {session ? (
@@ -170,7 +192,7 @@ const Home  = () => {
      </main>
    </div>
  
-  
+  </>
   )
 }
 
