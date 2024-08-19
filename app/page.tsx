@@ -166,14 +166,14 @@ const Home  = () => {
     <>
     {screenLoading && <Loader />}
 
-    <div className= 'min-h-screen main-content'>
-    <div className="shadow-lg fixed w-full z-10 top-0 flex justify-between items-center bg-black text-white">
+    <div className= 'min-h-screen main-content bg-slate-50'>
+    <div className="shadow-lg fixed w-full z-10 top-0 flex justify-between items-center text-white" style={{ backgroundColor: '#131313' }}>
      {/* <h1 className='mx-[10px]'>Brief Buzz</h1> */}
      <Image src='/logo.jpeg' alt='logo' width={90} height={90} className='ml-[10px]'/>
      {session ? (
        <div>
-         <p className='sm:block hidden'>Signed in as {session.user?.email}</p>
-         <button onClick={() => signOut()}>Sign out</button>
+         <p className='sm:block hidden mr-2'>Signed in as {session.user?.email}</p>
+         <button onClick={() => signOut()} className='mr-5'>Sign out</button>
        </div>
      ) : (
        <>
@@ -192,10 +192,10 @@ const Home  = () => {
      <SignInAlert  isOpen={isEditOpen}
         setIsOpen={setIsEditOpen}/>
      <div className='w-screen flex sm:flex-row flex-col justify-center items-center sm:mb-0 mb-[20px]'>
-      <button className={`text-white m-2  p-1 px-[20px] rounded hover:bg-slate-700 transition-colors duration-75 shadow- max-w-[250px] ${clicked === 200? "bg-black":"bg-yellow-400"}`} onClick={twoHundredHandler}>200 Words</button>
-      <button className={`text-white m-2 p-1 px-[20px] rounded hover:bg-slate-700 transition-colors duration-75 shadow- max-w-[250px] ${clicked === 350? "bg-black":"bg-yellow-400"}`} onClick={threeFiftyHandler}>350 Words</button>
-      <button className={`text-white m-2 p-1 px-[20px] rounded hover:bg-slate-700 transition-colors duration-75 shadow- max-w-[250px] ${clicked === 500? "bg-black":"bg-yellow-400"}`} onClick={fiveHundredHandler}>500 Words</button>
-      <button className={`text-white m-2 p-1 px-[20px] rounded hover:bg-slate-700 transition-colors duration-75 shadow- max-w-[250px] ${clicked === 1000? "bg-black":"bg-yellow-400"}`} onClick={oneThousandHandler}>1000 Words</button>
+      <button className={`text-white m-2  p-1 px-[20px] rounded hover:bg-yellow-500 transition-colors duration-75 shadow- max-w-[250px] ${clicked === 200? "bg-black":"bg-yellow-400"}`} onClick={twoHundredHandler}>200 Words</button>
+      <button className={`text-white m-2 p-1 px-[20px] rounded hover:bg-yellow-500 transition-colors duration-75 shadow- max-w-[250px] ${clicked === 350? "bg-black":"bg-yellow-400"}`} onClick={threeFiftyHandler}>350 Words</button>
+      <button className={`text-white m-2 p-1 px-[20px] rounded hover:bg-yellow-500 transition-colors duration-75 shadow- max-w-[250px] ${clicked === 500? "bg-black":"bg-yellow-400"}`} onClick={fiveHundredHandler}>500 Words</button>
+      <button className={`text-white m-2 p-1 px-[20px] rounded hover:bg-yellow-500 transition-colors duration-75 shadow- max-w-[250px] ${clicked === 1000? "bg-black":"bg-yellow-400"}`} onClick={oneThousandHandler}>1000 Words</button>
      </div>
      {/* <p>{response}</p> */}
      {loading ? (
@@ -205,7 +205,7 @@ const Home  = () => {
               <div className='pt-[10px]'>
         
                   {/* <p dangerouslySetInnerHTML={{ __html: marked(text) }}></p> */}
-                <div className='py-5 rounded-lg w-[80vw] shadow-black shadow-2xl px-5 flex'>
+                <div className='py-5 rounded-lg w-[80vw] shadow-black shadow-2xl px-5 flex text-white' style={{ backgroundColor: '#131313' }}>
                 {
                   text === "" ? (
                     <div className='flex'>
@@ -223,9 +223,9 @@ const Home  = () => {
                       <TypingEffect text={text} isClicked={clicked} />
                     ) : (
                       <div className='flex flex-col w-full'>
-                           <Skeleton className='w-full' />
-                            <Skeleton className='w-full' />
-                            <Skeleton className='w-full' />
+                           <Skeleton className='w-full'   sx={{ bgcolor: 'grey.600' }}/>
+                            <Skeleton className='w-full' sx={{ bgcolor: 'grey.600' }}/>
+                            <Skeleton className='w-full' sx={{ bgcolor: 'grey.600' }}/>
                       </div>
                     )
                   )
