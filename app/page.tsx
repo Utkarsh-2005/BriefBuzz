@@ -18,6 +18,7 @@ import Loader from './components/Loader';
 import Image from 'next/image';
 // import Link from 'next/link';
 import Skeleton from '@mui/material/Skeleton';
+import Footer from "./components/Footer";
 
 
 type Response = {
@@ -241,7 +242,7 @@ const Home  = () => {
      </div>
      </main>
    </div>
- 
+    <Footer/>
   </>
   )
 }
