@@ -90,3 +90,7 @@
   position: relative;
   z-index: 1;
 }
+
+body {
+  overflow-x: hidden;
+}

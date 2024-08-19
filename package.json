@@ -10,8 +10,11 @@
     "postinstall": "prisma generate"
   },
   "dependencies": {
+    "@emotion/react": "^11.13.0",
+    "@emotion/styled": "^11.13.0",
     "@google-cloud/vertexai": "^1.4.0",
     "@google/generative-ai": "^0.15.0",
+    "@mui/material": "^5.16.7",
     "@prisma/client": "^5.17.0",
     "@radix-ui/react-alert-dialog": "^1.1.1",
     "@radix-ui/react-slot": "^1.1.0",
