@@ -16,6 +16,7 @@ import TypingEffect from './components/TypingEffect';
 import SignInAlert from './components/SignInAlert';
 import Loader from './components/Loader';
 import Image from 'next/image';
+// import Link from 'next/link';
 import Skeleton from '@mui/material/Skeleton';
 
 
@@ -169,7 +170,9 @@ const Home  = () => {
     <div className= 'min-h-screen main-content bg-slate-50 hover:select-none'>
     <div className="shadow-lg fixed w-full z-10 top-0 flex justify-between items-center text-white" style={{ backgroundColor: '#131313' }}>
      {/* <h1 className='mx-[10px]'>Brief Buzz</h1> */}
-     <Image src='/logo.png' alt='logo' width={90} height={90} className='ml-[10px]'/>
+     <a href="/">
+      <Image src='/logo.png' alt='logo' width={90} height={90} className='ml-[10px]'/>
+     </a>
      {session ? (
        <div>
          <p className='sm:block hidden mr-2'>Signed in as {session.user?.email}</p>
@@ -192,10 +195,10 @@ const Home  = () => {
      <SignInAlert  isOpen={isEditOpen}
         setIsOpen={setIsEditOpen}/>
      <div className='w-screen flex sm:flex-row flex-col justify-center items-center sm:mb-0 mb-[20px]'>
-      <button className={`text-white m-2  p-1 px-[20px] rounded hover:bg-yellow-500 transition-colors duration-75 shadow- max-w-[250px] ${clicked === 200? "bg-yellow-500":"bg-yellow-400"}`} onClick={twoHundredHandler}>200 Words</button>
-      <button className={`text-white m-2 p-1 px-[20px] rounded hover:bg-yellow-500 transition-colors duration-75 shadow- max-w-[250px] ${clicked === 350? "bg-yellow-500":"bg-yellow-400"}`} onClick={threeFiftyHandler}>350 Words</button>
-      <button className={`text-white m-2 p-1 px-[20px] rounded hover:bg-yellow-500 transition-colors duration-75 shadow- max-w-[250px] ${clicked === 500? "bg-yellow-500":"bg-yellow-400"}`} onClick={fiveHundredHandler}>500 Words</button>
-      <button className={`text-white m-2 p-1 px-[20px] rounded hover:bg-yellow-500 transition-colors duration-75 shadow- max-w-[250px] ${clicked === 1000? "bg-yellow-500":"bg-yellow-400"}`} onClick={oneThousandHandler}>1000 Words</button>
+      <button className={`text-white m-2  p-1 px-[20px] rounded hover:bg-yellow-500 transition-colors duration-75  max-w-[250px] ${clicked === 200? "bg-yellow-500":"bg-yellow-400"} min-w-[135px]`} onClick={twoHundredHandler}>200 Words</button>
+      <button className={`text-white m-2 p-1 px-[20px] rounded hover:bg-yellow-500 transition-colors duration-75 shadow- max-w-[250px] ${clicked === 350? "bg-yellow-500":"bg-yellow-400"} min-w-[135px]`} onClick={threeFiftyHandler}>350 Words</button>
+      <button className={`text-white m-2 p-1 px-[20px] rounded hover:bg-yellow-500 transition-colors duration-75 shadow- max-w-[250px] ${clicked === 500? "bg-yellow-500":"bg-yellow-400"} min-w-[135px]`} onClick={fiveHundredHandler}>500 Words</button>
+      <button className={`text-white m-2 p-1 px-[20px] rounded hover:bg-yellow-500 transition-colors duration-75 shadow- max-w-[250px] ${clicked === 1000? "bg-yellow-500":"bg-yellow-400"} min-w-[135px]`} onClick={oneThousandHandler}>1000 Words</button>
      </div>
      {/* <p>{response}</p> */}
      {loading ? (
