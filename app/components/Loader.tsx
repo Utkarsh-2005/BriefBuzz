@@ -8,7 +8,7 @@ const Loader: React.FC = () => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setFadeOut(true);
-    }, 500); // Start fading out after 2.5 seconds
+    }, 2000); // Start fading out after 2.5 seconds
 
     return () => clearTimeout(timer);
   }, []);
