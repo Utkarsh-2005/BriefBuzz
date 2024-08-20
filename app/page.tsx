@@ -169,7 +169,7 @@ const Home  = () => {
     {screenLoading && <Loader />}
 
     <div className= 'min-h-screen main-content bg-slate-50 hover:select-none'>
-    <div className="shadow-lg fixed w-full z-10 top-0 flex justify-between items-center text-white" style={{ backgroundColor: '#131313' }}>
+    <div className="shadow-lg fixed w-full z-10 top-0 flex justify-between items-center bg-black text-white">
      {/* <h1 className='mx-[10px]'>Brief Buzz</h1> */}
      <a href="/">
       <Image src='/logo.png' alt='logo' width={90} height={90} className='ml-[10px]'/>
