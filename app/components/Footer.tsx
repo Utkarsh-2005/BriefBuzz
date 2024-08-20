@@ -1,5 +1,6 @@
 import React from 'react'
-import { FaFacebook, FaTwitter, FaInstagram, FaLinkedin, FaGithub } from 'react-icons/fa';
+import { FaInstagram, FaLinkedin, FaGithub } from 'react-icons/fa';
+import Link from 'next/link';
 
 const Footer = () => {
   return (
@@ -13,16 +14,17 @@ const Footer = () => {
           <div>
             <h4 className="text-lg font-bold mb-4">Quick Links</h4>
             <ul className="space-y-2">
-              <li><a href="#" className="hover:text-gray-300">Features</a></li>
-              <li><a href="#" className="hover:text-gray-300">Pricing</a></li>
-              <li><a href="#" className="hover:text-gray-300">Blog</a></li>
+              <li><Link href="/features" className="hover:text-gray-300">Features</Link></li>
+              <li><Link href="/about" className="hover:text-gray-300">About</Link></li>
+              <li><a href="https://utkarshj.vercel.app/" className="hover:text-gray-300">Portfolio</a></li>
             </ul>
           </div>
           <div>
             <h4 className="text-lg font-bold mb-4">Contact Me</h4>
             <ul className="space-y-2">
-              <li><a href="https://utkarshj.vercel.app/" className="hover:text-gray-300">utkarshj.vercel.app</a></li>
-              <li><a href="#" className="hover:text-gray-300">+91-859-568-7296</a></li>
+            <li><a href="mailto:utkarshjha.4009@gmail.com" className="hover:text-gray-300">utkarshjha.4009@gmail.com</a></li>
+
+              <li><a href="tel:+918595687296" className="hover:text-gray-300">+91-859-568-7296</a></li>
             </ul>
           </div>
           <div>

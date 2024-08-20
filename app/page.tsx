@@ -203,7 +203,9 @@ const Home  = () => {
      </div>
      {/* <p>{response}</p> */}
      {loading ? (
-            <p>Loading...</p>
+             <div className='py-5 rounded-lg w-[80vw] shadow-black shadow-2xl px-5 flex text-white hover:select-text' style={{ backgroundColor: '#131313' }}>
+                <Skeleton className='w-full'   sx={{ bgcolor: 'grey.600' }}/>
+              </div>
           ) : (
             response && (
               <div className='pt-[10px]'>

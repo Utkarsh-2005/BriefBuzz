@@ -49,6 +49,7 @@ const TypingEffect: React.FC<TypingEffectProps> = ({ text = '', speed = 50, isCl
           width={20}
           height={20}
           style={{ display: 'inline-block', verticalAlign: 'middle' }}
+          className='animate-grow-shrink'
         />
       )}
     </div>

@@ -55,8 +55,8 @@ export async function GET() {
     description: article.description,
     content: article.content
   }))
-  const dataStr200 = JSON.stringify(TransformedArticles) + "  Summarize this news into 200 words. Add ' #' before starting."
-  const dataStr350 = JSON.stringify(TransformedArticles) + "  Summarize this news into 350 words.Add ' #' before starting."
+  const dataStr200 = JSON.stringify(TransformedArticles) + "  Summarize this news into 200 words. Add '##' before starting."
+  const dataStr350 = JSON.stringify(TransformedArticles) + "  Summarize this news into 350 words.Add '##' before starting."
   const dataStr500 = JSON.stringify(TransformedArticles) + "  Summarize this news into 500 words."
   const dataStr1000 = JSON.stringify(TransformedArticles) + "  Summarize this news into 1000 words."
 
