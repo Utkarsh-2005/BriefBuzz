@@ -6,7 +6,7 @@
       }
     ],
     "functions": {
-      "app/pages/api/cron.ts": {
+      "app/api/cron/route.ts": {
         "maxDuration": 60 
       }
     }
