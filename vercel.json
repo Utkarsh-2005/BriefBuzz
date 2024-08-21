@@ -1,12 +1,12 @@
 {
     "crons": [
       {
-        "path": "/api/cron",
+        "path": "api/cron",
         "schedule": "0 1 * * *"
       }
     ],
     "functions": {
-      "/api/cron": {
+      "api/cron": {
         "maxDuration": 30 
       }
     }
