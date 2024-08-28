@@ -55,10 +55,10 @@ export async function GET() {
     description: article.description,
     content: article.content
   }))
-  const dataStr200 = JSON.stringify(TransformedArticles) + "  Summarize this news into 200 words. Add '##' before starting."
-  const dataStr350 = JSON.stringify(TransformedArticles) + "  Summarize this news into 350 words.Add '##' before starting."
-  const dataStr500 = JSON.stringify(TransformedArticles) + "  Summarize this news into 500 words."
-  const dataStr1000 = JSON.stringify(TransformedArticles) + "  Summarize this news into 1000 words."
+  const dataStr200 = JSON.stringify(TransformedArticles) + " Summarize this news into 200 words. Add '##' before starting. Add ' \n' at the start of a new topic and after it."
+  const dataStr350 = JSON.stringify(TransformedArticles) + " Summarize this news into 350 words.Add '##' before starting. Add ' \n' at the start of a new topic and after it."
+  const dataStr500 = JSON.stringify(TransformedArticles) + " Summarize this news into 500 words. Add ' \n' at the start of a new topic and after it." 
+  const dataStr1000 = JSON.stringify(TransformedArticles) + " Summarize this news into 1000 words. Add ' \n' at the start of a new topic and after it."
 
   const text200 = await run(dataStr200);
   const text350 = await run(dataStr350);
@@ -67,14 +67,26 @@ export async function GET() {
   await prisma.article.create({
     data: {
       
-      twoHundred: text200.response.text().replace(/(\n|\s)+/g, ' '),
-      threeFifty: text350.response.text().replace(/(\n|\s)+/g, ' '),
-      fiveHundred: text500.response.text().replace(/(\n|\s)+/g, ' '),
-      oneThousand: text1000.response.text().replace(/(\n|\s)+/g, ' '),
+      twoHundred: text200.response.text(),
+      threeFifty: text350.response.text(),
+      fiveHundred: text500.response.text(),
+      oneThousand: text1000.response.text(),
     },
   });
-  // const headers = new Headers();
-  // headers.set('Cache-Control', 'no-store');
+  // .replace(/(\n|\s)+/g, ' ')
+  const oldestObject = await prisma.article.findFirst({
+    orderBy: {
+      createdAt: 'asc', // Fetches the first created (oldest) object
+    },
+  });
+  if (oldestObject) {
+    await prisma.article.delete({
+      where: {
+        id: oldestObject.id, // Assuming `id` is the primary key
+      },
+    });
+  }
+    
 
   return NextResponse.json(data);
 }catch (error:any) {
