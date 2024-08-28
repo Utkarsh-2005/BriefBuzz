@@ -17,6 +17,7 @@ const Footer = () => {
               <li><a href="https://utkarshj.vercel.app/" className="hover:text-gray-300">Portfolio</a></li>
               <li><Link href="/features" className="hover:text-gray-300">Features</Link></li>
               <li><Link href="/about" className="hover:text-gray-300">About</Link></li>
+              <li><Link href="/" className="hover:text-gray-300">Home</Link></li>
             </ul>
           </div>
           <div>
