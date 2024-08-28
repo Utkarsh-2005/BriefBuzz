@@ -168,7 +168,7 @@ const Home  = () => {
     <>
     {screenLoading && <Loader />}
 
-    <div className= 'min-h-screen main-content bg-slate-50 hover:select-none mb-[100px]'>
+    <div className= 'min-h-screen main-content bg-slate-50 hover:select-none pb-[100px]'>
     <div className="shadow-lg fixed w-full z-10 top-0 flex justify-between items-center bg-black text-white">
      {/* <h1 className='mx-[10px]'>Brief Buzz</h1> */}
      <a href="/">
