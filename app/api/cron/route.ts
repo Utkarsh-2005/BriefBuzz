@@ -43,7 +43,7 @@ async function run(prompt:string) {
 
 export async function GET() {
   try {
-  const response = await fetch('https://newsapi.org/v2/top-headlines?country=in&apiKey=2d6a75aacad645469ef07fbdf13cb522', { next: { revalidate: 0 } });
+  const response = await fetch('https://newsapi.org/v2/top-headlines?country=us&apiKey=2d6a75aacad645469ef07fbdf13cb522', { next: { revalidate: 0 } });
   if (!response.ok) {
     return NextResponse.json({ error: 'Failed to fetch data' }, { status: 500 });
   }
