@@ -263,7 +263,7 @@ const Home  = () => {
      </div>
      {/* <p>{response}</p> */}
      {clicked === 0? (
-          <div className="card-list flex flex-col space-y-3 my-5">
+          <div className="card-list flex flex-col space-y-3 my-5 px-4 sm:px-0">
           {cardData.map((card, index) => (
             <TopicCard
               key={index} // Using the index as the key
