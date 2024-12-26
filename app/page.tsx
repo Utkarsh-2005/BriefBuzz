@@ -103,13 +103,8 @@ const Home  = () => {
   }, []);
 
   const vibrateDevice = (duration: number | number[] = 200) => {
-    if (vibrate === false){
       setVibrate(true);
-    if (navigator.vibrate) { // Check for browser support
         navigator.vibrate(duration);
-    } else {
-        console.warn("Vibration API not supported.");
-    }}
 };
 
 
