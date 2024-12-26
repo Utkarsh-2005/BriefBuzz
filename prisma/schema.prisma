@@ -25,5 +25,6 @@ model Article {
   threeFifty   String
   fiveHundred  String
   oneThousand  String
+  card         String?
   createdAt DateTime @default(now())
 }

@@ -28,17 +28,18 @@ const generationConfig = {
   responseMimeType: "text/plain",
 };
 
-async function run(prompt:string) {
-  const chatSession = model.startChat({
-    generationConfig,
- // safetySettings: Adjust safety settings
- // See https://ai.google.dev/gemini-api/docs/safety-settings
-    history: [
-    ],
-  });
-
-  const result = await chatSession.sendMessage(prompt);
-  return result;
+async function run(prompt: string) {
+  try {
+    const chatSession = model.startChat({ generationConfig });
+    const result = await chatSession.sendMessage(prompt);
+    if (!result || !result.response) {
+      throw new Error('Empty or invalid response from the model');
+    }
+    return result;
+  } catch (error) {
+    console.error('Error in run function:', error);
+    throw error;
+  }
 }
 
 export async function GET() {
@@ -53,20 +54,28 @@ export async function GET() {
     author: article.author,
     title: article.title,
     description: article.description,
-    content: article.content
+    content: article.content,
+    image: article.urlToImage,
   }))
+  // console.log(data)
   const dataStr200 = JSON.stringify(TransformedArticles) + " Summarize this news into 200 words. Add '##' before starting. Add ' \n' at the start of a new topic and after it."
   const dataStr350 = JSON.stringify(TransformedArticles) + " Summarize this news into 350 words.Add '##' before starting. Add ' \n' at the start of a new topic and after it."
   const dataStr500 = JSON.stringify(TransformedArticles) + " Summarize this news into 500 words. Add ' \n' at the start of a new topic and after it." 
   const dataStr1000 = JSON.stringify(TransformedArticles) + " Summarize this news into 1000 words. Add ' \n' at the start of a new topic and after it."
+  const cards = JSON.stringify(TransformedArticles) + " Create an array of objects. Distribute this news topic wise in objects of keys- topic (genre i.e. Health, Finance, Sports, etc), image (which has the image url) and description."
 
+  const textCard = await run(cards);
   const text200 = await run(dataStr200);
   const text350 = await run(dataStr350);
   const text500 = await run(dataStr500);
   const text1000 = await run(dataStr1000);
+  
+console.log('textCard:', textCard);
+  console.log('Response for cards:', textCard?.response?.text());
+  const Cardtext = textCard?.response?.text();
   await prisma.article.create({
     data: {
-      
+      card: (Cardtext ? (typeof Cardtext === 'string' ? Cardtext : Cardtext[0]) : 'No data'),
       twoHundred: text200.response.text(),
       threeFifty: text350.response.text(),
       fiveHundred: text500.response.text(),

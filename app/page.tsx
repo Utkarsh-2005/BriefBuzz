@@ -19,16 +19,25 @@ import Image from 'next/image';
 // import Link from 'next/link';
 import Skeleton from '@mui/material/Skeleton';
 import Footer from "./components/Footer";
+import TopicCard from './components/TopicCard';
 
 
 type Response = {
   _id: string;
+  card: string;
   twoHundred: string;
   threeFifty: string;
   fiveHundred: string;
   oneThousand: string;
   createdAt: string;
 };
+
+interface Card {
+  image: string;
+  topic: string;
+  description: string;
+}
+
 
 
 const Home  = () => {
@@ -43,6 +52,8 @@ const Home  = () => {
   const [screenLoading, setScreenLoading] = useState(true);
   const [contentVisible, setContentVisible] = useState(false);
   const [textLoading, setTextLoading] = useState<boolean>(false);
+  const [cardData, setCardData] = useState<Card[]>([]);
+  const [vibrate, setVibrate] = useState(false);
 
 
   const styles: React.CSSProperties & { [key: string]: string | number } = {
@@ -80,8 +91,6 @@ const Home  = () => {
         if (data.length > 0) {
           setResponse(data[0]); // Access the first item in the list
         }
-
-      
         setLoading(false);
       } catch (error) {
         console.error('Error fetching articles:', error);
@@ -90,9 +99,57 @@ const Home  = () => {
     }
 
     fetchArticles();
+    
   }, []);
 
+  const vibrateDevice = (duration: number | number[] = 200) => {
+    if (vibrate === false){
+      setVibrate(true);
+    if (navigator.vibrate) { // Check for browser support
+        navigator.vibrate(duration);
+    } else {
+        console.warn("Vibration API not supported.");
+    }}
+};
+
+
+  useEffect(() => {
+    const match = response?.card.match(/\[.*\]/s);// Extract JSON array part
+    console.log(match);
+    if (match) {
+      setCardData(JSON.parse(match[0])); // Parse and set card data
+    }
+  },  [response]);
+
+  const cardsHandler = () => {
+    vibrateDevice();
+    if (isAuthenticated === false){
+      setIsEditOpen(true);
+    }else{
+    if (clicked != 0){
+      setClicked(0);
+      setTextLoading(true); // Start loading
+      setTimeout(() => {
+        setTextLoading(false); // Stop loading after 2 seconds
+      }, 1500);
+
+    }
+    // Optionally reset after some time or based on other logic
+    // setTimeout(() => setClicked(false), 100);
+    // if (response?.card){
+    //   console.log(text)
+    //   const match = response.card.match(/\[[\s\S]*\]$/); // Extract JSON array part
+    //   if (match) {
+    //     setCardData(JSON.parse(match[0])); // Parse and set card data
+    //   } else {
+    //     console.error("No valid JSON array found in response.card");
+    //   }
+    // }
+  }
+  }
+
   const twoHundredHandler = () => {
+    vibrateDevice();
     if (isAuthenticated === false){
       setIsEditOpen(true);
     }else{
@@ -113,6 +170,7 @@ const Home  = () => {
 
   
   const threeFiftyHandler = () => {
+    vibrateDevice();
     if (isAuthenticated === false){
       setIsEditOpen(true);
     }else{
@@ -130,6 +188,7 @@ const Home  = () => {
 
   
   const fiveHundredHandler = () => {
+    vibrateDevice();
     if (isAuthenticated === false){
       setIsEditOpen(true);
     }else{
@@ -146,21 +205,21 @@ const Home  = () => {
   }
 
   
-  const oneThousandHandler = () => {
-    if (isAuthenticated === false){
-      setIsEditOpen(true);
-    }else{
-    if (clicked != 1000){
-      setClicked(1000);
-      setTextLoading(true); // Start loading
-      setTimeout(() => {
-        setTextLoading(false); // Stop loading after 2 seconds
-      }, 1500);
-    }
-    if (response?.oneThousand){
-      setText(response.oneThousand.replace(/ \* /g, ' '))
-    }}
-  }
+  // const oneThousandHandler = () => {
+  //   if (isAuthenticated === false){
+  //     setIsEditOpen(true);
+  //   }else{
+  //   if (clicked != 1000){
+  //     setClicked(1000);
+  //     setTextLoading(true); // Start loading
+  //     setTimeout(() => {
+  //       setTextLoading(false); // Stop loading after 2 seconds
+  //     }, 1500);
+  //   }
+  //   if (response?.oneThousand){
+  //     setText(response.oneThousand.replace(/ \* /g, ' '))
+  //   }}
+  // }
 
 
   
@@ -183,7 +242,7 @@ const Home  = () => {
        <>
        {/* <button onClick={() => signIn('google')}>Sign in with Baby</button> */}
        <div className="flex items-center justify-center">
-       <button className="px-4 py-2 border flex gap-2 border-black dark:border-slate-700 rounded-lg text-slate-100  hover:border-slate-400 dark:hover:border-slate-500 hover:text-slate-400 hover:shadow transition duration-150 bg-slate-600 mr-2" onClick={() => signIn('google')}>
+       <button className="px-4 py-2 border flex gap-2 border-black dark:border-slate-700 rounded-lg text-slate-100  hover:border-slate-400 dark:hover:border-slate-500 hover:text-slate-400 hover:shadow transition duration-150 bg-slate-600 mr-2" onClick={() =>{ vibrateDevice(); signIn('google')}}>
           <img className="w-6 h-6" src="https://www.svgrepo.com/show/475656/google-color.svg" loading="lazy" alt="google logo"/>
           <span>Login with Google</span>
       </button>
@@ -196,13 +255,26 @@ const Home  = () => {
      <SignInAlert  isOpen={isEditOpen}
         setIsOpen={setIsEditOpen}/>
      <div className='w-screen flex sm:flex-row flex-col justify-center items-center sm:mb-0 mb-[20px]'>
+       <button className={`text-white m-2  p-1 px-[20px] rounded hover:bg-yellow-500 transition-colors duration-75  max-w-[250px] ${clicked === 0? "bg-yellow-500":"bg-yellow-400"} min-w-[135px]`} onClick={cardsHandler}>Cards</button>
       <button className={`text-white m-2  p-1 px-[20px] rounded hover:bg-yellow-500 transition-colors duration-75  max-w-[250px] ${clicked === 200? "bg-yellow-500":"bg-yellow-400"} min-w-[135px]`} onClick={twoHundredHandler}>200 Words</button>
       <button className={`text-white m-2 p-1 px-[20px] rounded hover:bg-yellow-500 transition-colors duration-75 shadow- max-w-[250px] ${clicked === 350? "bg-yellow-500":"bg-yellow-400"} min-w-[135px]`} onClick={threeFiftyHandler}>350 Words</button>
       <button className={`text-white m-2 p-1 px-[20px] rounded hover:bg-yellow-500 transition-colors duration-75 shadow- max-w-[250px] ${clicked === 500? "bg-yellow-500":"bg-yellow-400"} min-w-[135px]`} onClick={fiveHundredHandler}>500 Words</button>
-      <button className={`text-white m-2 p-1 px-[20px] rounded hover:bg-yellow-500 transition-colors duration-75 shadow- max-w-[250px] ${clicked === 1000? "bg-yellow-500":"bg-yellow-400"} min-w-[135px]`} onClick={oneThousandHandler}>1000 Words</button>
+      {/* <button className={`text-white m-2 p-1 px-[20px] rounded hover:bg-yellow-500 transition-colors duration-75 shadow- max-w-[250px] ${clicked === 1000? "bg-yellow-500":"bg-yellow-400"} min-w-[135px]`} onClick={oneThousandHandler}>1000 Words</button> */}
      </div>
      {/* <p>{response}</p> */}
-     {loading ? (
+     {clicked === 0? (
+          <div className="card-list flex flex-col space-y-3 my-5">
+          {cardData.map((card, index) => (
+            <TopicCard
+              key={index} // Using the index as the key
+              topic={card.topic}
+              image={card.image}
+              description={card.description}
+            />
+          ))}
+        </div>  
+     ):(<>
+      {loading ? (
              <div className='py-5 rounded-lg w-[80vw] shadow-black shadow-2xl px-5 flex text-white hover:select-text' style={{ backgroundColor: '#131313' }}>
                 <Skeleton className='w-full'   sx={{ bgcolor: 'grey.600' }}/>
               </div>
@@ -241,6 +313,7 @@ const Home  = () => {
               </div>
             )
           )}
+     </>)}
      </div>
      </main>
    </div>
