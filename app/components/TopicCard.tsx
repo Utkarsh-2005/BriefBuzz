@@ -5,16 +5,18 @@ import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import CardActionArea from '@mui/material/CardActionArea';
 import { motion, useInView } from 'framer-motion';
+import { url } from 'inspector';
 
 interface TopicCardProps {
     image: string | null | undefined;
     topic: string;
     description: string;
+    url: string;
 }
 
 const DEFAULT_IMAGE = "https://cdn.pixabay.com/photo/2023/10/17/09/37/honey-bee-8320764_1280.jpg";
 
-const TopicCard: React.FC<TopicCardProps> = ({ image, topic, description }) => {
+const TopicCard: React.FC<TopicCardProps> = ({ image, topic, description, url }) => {
     const imageSrc = image ?? DEFAULT_IMAGE;
     const ref = React.useRef(null);
     const isInView = useInView(ref, { once: true, margin: "0px 0px -50px 0px" });
@@ -27,6 +29,7 @@ const TopicCard: React.FC<TopicCardProps> = ({ image, topic, description }) => {
             transition={{ duration: 0.5, ease: "easeOut" }}
         >
             <Card sx={{ maxWidth: 345 }}>
+              <a href={url}>
                 <CardActionArea>
                     <CardMedia
                         component="img"
@@ -47,6 +50,7 @@ const TopicCard: React.FC<TopicCardProps> = ({ image, topic, description }) => {
                         </Typography>
                 </CardContent>
                 </CardActionArea>
+              </a>
             </Card>
         </motion.div>
     );

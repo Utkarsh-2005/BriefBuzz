@@ -36,6 +36,7 @@ interface Card {
   image: string;
   topic: string;
   description: string;
+  url:string;
 }
 
 
@@ -102,8 +103,7 @@ const Home  = () => {
     
   }, []);
 
-  const vibrateDevice = (duration: number | number[] = 200) => {
-      setVibrate(true);
+  const vibrateDevice = (duration: number | number[] = 500) => {
         navigator.vibrate(duration);
 };
 
@@ -265,6 +265,7 @@ const Home  = () => {
               topic={card.topic}
               image={card.image}
               description={card.description}
+              url = {card.url}
             />
           ))}
         </div>  

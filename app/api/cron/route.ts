@@ -62,7 +62,7 @@ export async function GET() {
   const dataStr350 = JSON.stringify(TransformedArticles) + " Summarize this news into 350 words.Add '##' before starting. Add ' \n' at the start of a new topic and after it."
   const dataStr500 = JSON.stringify(TransformedArticles) + " Summarize this news into 500 words. Add ' \n' at the start of a new topic and after it." 
   const dataStr1000 = JSON.stringify(TransformedArticles) + " Summarize this news into 1000 words. Add ' \n' at the start of a new topic and after it."
-  const cards = JSON.stringify(TransformedArticles) + " Create an array of objects. Distribute this news topic wise in objects of keys- topic (genre i.e. Health, Finance, Sports, etc), image (which has the image url) and description."
+  const cards = JSON.stringify(TransformedArticles) + " Create an array of objects. Distribute this news topic wise in objects of keys- topic (genre i.e. Health, Finance, Sports, etc), image (which has the image url), description and url."
 
   const textCard = await run(cards);
   const text200 = await run(dataStr200);
