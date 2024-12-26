@@ -56,13 +56,14 @@ export async function GET() {
     description: article.description,
     content: article.content,
     image: article.urlToImage,
+    url: article.url,
   }))
   // console.log(data)
   const dataStr200 = JSON.stringify(TransformedArticles) + " Summarize this news into 200 words. Add '##' before starting. Add ' \n' at the start of a new topic and after it."
   const dataStr350 = JSON.stringify(TransformedArticles) + " Summarize this news into 350 words.Add '##' before starting. Add ' \n' at the start of a new topic and after it."
   const dataStr500 = JSON.stringify(TransformedArticles) + " Summarize this news into 500 words. Add ' \n' at the start of a new topic and after it." 
   const dataStr1000 = JSON.stringify(TransformedArticles) + " Summarize this news into 1000 words. Add ' \n' at the start of a new topic and after it."
-  const cards = JSON.stringify(TransformedArticles) + " Create an array of objects. Distribute this news topic wise in objects of keys- topic (genre i.e. Health, Finance, Sports, etc), image (which has the image url), description and url."
+  const cards = JSON.stringify(TransformedArticles) + " Create an array of objects. Distribute this news topic wise in objects of keys- topic (genre i.e. Health, Finance, Sports, etc), image (which has the image url), description and url (source url). make sure you take the exact url from corresponding object of the newsapi response."
 
   const textCard = await run(cards);
   const text200 = await run(dataStr200);
