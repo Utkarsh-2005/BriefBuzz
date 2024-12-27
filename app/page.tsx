@@ -20,6 +20,7 @@ import Image from 'next/image';
 import Skeleton from '@mui/material/Skeleton';
 import Footer from "./components/Footer";
 import TopicCard from './components/TopicCard';
+import { set } from 'date-fns';
 
 
 type Response = {
@@ -128,6 +129,7 @@ const Home  = () => {
 
   const vibrateDevice = (duration: number | number[] = 100) => {
     if (vibrate === false) {
+      setVibrate(true);
       if (navigator.vibrate) {
         navigator.vibrate(duration); 
       } else {
