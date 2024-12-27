@@ -128,15 +128,16 @@ const Home  = () => {
   }, []);
 
   const vibrateDevice = (duration: number | number[] = 100) => {
-    if (vibrate === false) {
       setVibrate(true);
       if (navigator.vibrate) {
         navigator.vibrate(duration); 
       } else {
         console.warn('Vibration API is not supported in this browser.');
       }
-    }
   };
+  useEffect(() => {
+    vibrateDevice();
+  }, [isEditOpen]);
 
 
   useEffect(() => {
@@ -148,7 +149,6 @@ const Home  = () => {
   },  [response]);
 
   const cardsHandler = () => {
-    vibrateDevice();
     if (isAuthenticated === false){
       setIsEditOpen(true);
     }else{
@@ -175,7 +175,6 @@ const Home  = () => {
   }
 
   const twoHundredHandler = () => {
-    vibrateDevice();
     if (isAuthenticated === false){
       setIsEditOpen(true);
     }else{
@@ -196,7 +195,6 @@ const Home  = () => {
 
   
   const threeFiftyHandler = () => {
-    vibrateDevice();
     if (isAuthenticated === false){
       setIsEditOpen(true);
     }else{
@@ -214,7 +212,6 @@ const Home  = () => {
 
   
   const fiveHundredHandler = () => {
-    vibrateDevice();
     if (isAuthenticated === false){
       setIsEditOpen(true);
     }else{
