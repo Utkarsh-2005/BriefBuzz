@@ -60,6 +60,29 @@ const Home  = () => {
   const styles: React.CSSProperties & { [key: string]: string | number } = {
     "--n": 50,
   };
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (!isAuthenticated) {
+        const scrollY = window.scrollY; // Get vertical scroll position
+        if (scrollY > 100) { // Adjust this threshold as needed
+          setIsEditOpen(true);
+          window.scrollTo({
+            top: 0, // Scroll to the top of the page
+            behavior: 'smooth', // Optional: Smooth scrolling effect
+          });
+        }
+      }
+    };
+  
+    // Attach scroll event listener
+    window.addEventListener('scroll', handleScroll);
+  
+    // Clean up the event listener on unmount
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [isAuthenticated]);
   
   useEffect(() => {
     // Set a timer to start fading out the loader after 2.5 seconds
@@ -216,6 +239,14 @@ const Home  = () => {
   //   }}
   // }
 
+  const handleClick = () => {
+    if (navigator.vibrate) {
+      navigator.vibrate(200); // Vibrates for 200ms
+    } else {
+      console.warn('Vibration API is not supported in this browser.');
+    }
+  };
+  
 
   
   return (
@@ -254,6 +285,7 @@ const Home  = () => {
       <button className={`text-white m-2  p-1 px-[20px] rounded hover:bg-yellow-500 transition-colors duration-75  max-w-[250px] ${clicked === 200? "bg-yellow-500":"bg-yellow-400"} min-w-[135px]`} onClick={twoHundredHandler}>200 Words</button>
       <button className={`text-white m-2 p-1 px-[20px] rounded hover:bg-yellow-500 transition-colors duration-75 shadow- max-w-[250px] ${clicked === 350? "bg-yellow-500":"bg-yellow-400"} min-w-[135px]`} onClick={threeFiftyHandler}>350 Words</button>
       <button className={`text-white m-2 p-1 px-[20px] rounded hover:bg-yellow-500 transition-colors duration-75 shadow- max-w-[250px] ${clicked === 500? "bg-yellow-500":"bg-yellow-400"} min-w-[135px]`} onClick={fiveHundredHandler}>500 Words</button>
+      <button onClick={() => handleClick()}>Vibrate</button>
       {/* <button className={`text-white m-2 p-1 px-[20px] rounded hover:bg-yellow-500 transition-colors duration-75 shadow- max-w-[250px] ${clicked === 1000? "bg-yellow-500":"bg-yellow-400"} min-w-[135px]`} onClick={oneThousandHandler}>1000 Words</button> */}
      </div>
      {/* <p>{response}</p> */}
