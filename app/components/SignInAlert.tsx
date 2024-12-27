@@ -20,8 +20,8 @@ import {
 const SignInAlert: React.FC<SignInAlertProps>  = ({isOpen, setIsOpen}) => {
 
     return (
-<AlertDialog open={isOpen} onOpenChange={setIsOpen}>
-  <AlertDialogContent className="max-w-[60vh]">
+    <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
+  <AlertDialogContent className="sm:max-w-[60vh] max-w-[80vw] rounded-md">
     <AlertDialogHeader className="flex justify-center items-center">
       <AlertDialogTitle>Looks like you are not Signed In</AlertDialogTitle>
       <AlertDialogDescription className="flex flex-col items-center">
