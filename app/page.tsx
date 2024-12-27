@@ -126,9 +126,15 @@ const Home  = () => {
     
   }, []);
 
-  const vibrateDevice = (duration: number | number[] = 500) => {
-        navigator.vibrate(duration);
-};
+  const vibrateDevice = (duration: number | number[] = 100) => {
+    if (vibrate === false) {
+      if (navigator.vibrate) {
+        navigator.vibrate(duration); 
+      } else {
+        console.warn('Vibration API is not supported in this browser.');
+      }
+    }
+  };
 
 
   useEffect(() => {
@@ -239,14 +245,6 @@ const Home  = () => {
   //   }}
   // }
 
-  const handleClick = () => {
-    if (navigator.vibrate) {
-      navigator.vibrate(200); // Vibrates for 200ms
-    } else {
-      console.warn('Vibration API is not supported in this browser.');
-    }
-  };
-  
 
   
   return (
@@ -285,7 +283,6 @@ const Home  = () => {
       <button className={`text-white m-2  p-1 px-[20px] rounded hover:bg-yellow-500 transition-colors duration-75  max-w-[250px] ${clicked === 200? "bg-yellow-500":"bg-yellow-400"} min-w-[135px]`} onClick={twoHundredHandler}>200 Words</button>
       <button className={`text-white m-2 p-1 px-[20px] rounded hover:bg-yellow-500 transition-colors duration-75 shadow- max-w-[250px] ${clicked === 350? "bg-yellow-500":"bg-yellow-400"} min-w-[135px]`} onClick={threeFiftyHandler}>350 Words</button>
       <button className={`text-white m-2 p-1 px-[20px] rounded hover:bg-yellow-500 transition-colors duration-75 shadow- max-w-[250px] ${clicked === 500? "bg-yellow-500":"bg-yellow-400"} min-w-[135px]`} onClick={fiveHundredHandler}>500 Words</button>
-      <button onClick={() => handleClick()}>Vibrate</button>
       {/* <button className={`text-white m-2 p-1 px-[20px] rounded hover:bg-yellow-500 transition-colors duration-75 shadow- max-w-[250px] ${clicked === 1000? "bg-yellow-500":"bg-yellow-400"} min-w-[135px]`} onClick={oneThousandHandler}>1000 Words</button> */}
      </div>
      {/* <p>{response}</p> */}
