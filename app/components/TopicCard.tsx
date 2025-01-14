@@ -29,7 +29,7 @@ const TopicCard: React.FC<TopicCardProps> = ({ image, topic, description, url })
             transition={{ duration: 0.5, ease: "easeOut" }}
         >
             <Card sx={{ maxWidth: 345 }}>
-              <a href={url}>
+              <a href={url} target="_blank" rel="noopener noreferrer">
                 <CardActionArea>
                     <CardMedia
                         component="img"
