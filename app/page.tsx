@@ -21,7 +21,7 @@ import Skeleton from '@mui/material/Skeleton';
 import Footer from "./components/Footer";
 import TopicCard from './components/TopicCard';
 import { set } from 'date-fns';
-
+import MultipleSelectChip from './components/MultpleSelectChip'
 
 type Response = {
   _id: string;
@@ -56,6 +56,7 @@ const Home  = () => {
   const [textLoading, setTextLoading] = useState<boolean>(false);
   const [cardData, setCardData] = useState<Card[]>([]);
   const [vibrate, setVibrate] = useState(false);
+  const [selectedTopics, setSelectedTopics] = useState<string[]>([]);
 
 
   const styles: React.CSSProperties & { [key: string]: string | number } = {
@@ -227,6 +228,14 @@ const Home  = () => {
     }}
   }
 
+  const filteredCards = cardData.filter(card => 
+    // If no topics are selected, show all cards
+    selectedTopics.length === 0 || 
+    // Otherwise, show cards that match selected topics
+    selectedTopics.includes(card.topic)
+  );
+
+
   
   // const oneThousandHandler = () => {
   //   if (isAuthenticated === false){
@@ -243,6 +252,13 @@ const Home  = () => {
   //     setText(response.oneThousand.replace(/ \* /g, ' '))
   //   }}
   // }
+  const handleTopicsChange = (topics: string[]) => {
+    setSelectedTopics(topics);
+    // You can now use the selectedTopics state here
+    // For example, fetch new data, update UI, etc.
+    console.log('Selected topics:', topics);
+  };
+
 
 
   
@@ -286,17 +302,31 @@ const Home  = () => {
      </div>
      {/* <p>{response}</p> */}
      {clicked === 0? (
-          <div className="card-list flex flex-col space-y-3 my-5 px-4 sm:px-0">
-          {cardData.map((card, index) => (
-            <TopicCard
-              key={index} // Using the index as the key
-              topic={card.topic}
-              image={card.image}
-              description={card.description}
-              url = {card.url}
-            />
-          ))}
-        </div>  
+     <div className="xl:relative w-full">
+     {/* Chip positioned slightly to the left */}
+     <div className="xl:absolute xl:left-64 xl:transform mt-4 flex justify-center">
+     <MultipleSelectChip
+        selectedTopics={selectedTopics}
+        onTopicsChange={handleTopicsChange}
+      />
+     </div>
+   
+     {/* Cards centered horizontally and vertically */}
+     <div className="flex justify-center items-center h-full">
+       <div className="card-list flex flex-col space-y-3 my-5 px-4 sm:px-0">
+         {filteredCards.map((card, index) => (
+           <TopicCard
+             key={index} // Using the index as the key
+             topic={card.topic}
+             image={card.image}
+             description={card.description}
+             url={card.url}
+           />
+         ))}
+       </div>
+     </div>
+   </div>
+   
      ):(<>
       {loading ? (
              <div className='py-5 rounded-lg w-[80vw] shadow-black shadow-2xl px-5 flex text-white hover:select-text' style={{ backgroundColor: '#131313' }}>
@@ -347,4 +377,4 @@ const Home  = () => {
 }
 
 
-export default Home;
+export default Home; 
