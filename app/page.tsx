@@ -253,10 +253,13 @@ const Home  = () => {
   //   }}
   // }
   const handleTopicsChange = (topics: string[]) => {
+    if (isAuthenticated === false){
+      setIsEditOpen(true);
+    }else{
     setSelectedTopics(topics);
     // You can now use the selectedTopics state here
     // For example, fetch new data, update UI, etc.
-    console.log('Selected topics:', topics);
+    console.log('Selected topics:', topics);}
   };
 
 
@@ -354,8 +357,24 @@ const Home  = () => {
                     !textLoading ? (
                       <TypingEffect text={text} isClicked={clicked} />
                     ) : (
-                      <div className='flex flex-col w-full'>
-                           <Skeleton className='w-full'   sx={{ bgcolor: 'grey.600' }}/>
+                          <div className='flex flex-col w-full'>
+                          <div className='flex animate-pulse slow-pulse'>
+                                <p>Summarizing using Gemini</p>
+                                <Image 
+                                  src='https://www.gstatic.com/lamda/images/gemini_sparkle_v002_d4735304ff6292a690345.svg' 
+                                  width={20} 
+                                  height={20} 
+                                  alt='gemini' 
+                                  className='ml-[3px]'
+                                />
+                              </div>
+                              <style jsx>{`
+                                      .slow-pulse {
+                                        animation-duration: 3.3s; /* Increase the duration here to make it slower */
+                                      }
+                                    `}</style>
+
+                           {/* <Skeleton className='w-full'   sx={{ bgcolor: 'grey.600' }}/> */}
                             <Skeleton className='w-full' sx={{ bgcolor: 'grey.600' }}/>
                             <Skeleton className='w-full' sx={{ bgcolor: 'grey.600' }}/>
                       </div>
