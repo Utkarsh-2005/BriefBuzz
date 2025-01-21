@@ -57,6 +57,7 @@ const Home  = () => {
   const [cardData, setCardData] = useState<Card[]>([]);
   const [vibrate, setVibrate] = useState(false);
   const [selectedTopics, setSelectedTopics] = useState<string[]>([]);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
 
 
   const styles: React.CSSProperties & { [key: string]: string | number } = {
@@ -254,12 +255,21 @@ const Home  = () => {
   // }
   const handleTopicsChange = (topics: string[]) => {
     if (isAuthenticated === false){
+      setDropdownOpen(false);
       setIsEditOpen(true);
     }else{
     setSelectedTopics(topics);
     // You can now use the selectedTopics state here
     // For example, fetch new data, update UI, etc.
     console.log('Selected topics:', topics);}
+  };
+
+  const handleOpen = () => {
+    setDropdownOpen(true);
+  };
+
+  const handleClose = () => {
+    setDropdownOpen(false);
   };
 
 
@@ -311,6 +321,9 @@ const Home  = () => {
      <MultipleSelectChip
         selectedTopics={selectedTopics}
         onTopicsChange={handleTopicsChange}
+        open={dropdownOpen}
+        onOpen={handleOpen}
+        onClose={handleClose}
       />
      </div>
    

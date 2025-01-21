@@ -7,6 +7,7 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import Chip from '@mui/material/Chip';
+import Button from '@mui/material/Button';
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -42,9 +43,18 @@ function getStyles(name: string, selectedTopics: readonly string[], theme: Theme
 interface MultipleSelectChipProps {
   selectedTopics: string[];
   onTopicsChange: (topics: string[]) => void;
+  open: boolean;
+  onOpen: () => void;
+  onClose: () => void;
 }
 
-export default function MultipleSelectChip({ selectedTopics, onTopicsChange }: MultipleSelectChipProps) {
+export default function MultipleSelectChip({ 
+  selectedTopics, 
+  onTopicsChange,
+  open,
+  onOpen,
+  onClose
+}: MultipleSelectChipProps) {
   const theme = useTheme();
 
   const handleChange = (event: SelectChangeEvent<typeof selectedTopics>) => {
@@ -55,8 +65,16 @@ export default function MultipleSelectChip({ selectedTopics, onTopicsChange }: M
     onTopicsChange(newValue);
   };
 
+  const handleClearAll = () => {
+    onTopicsChange([]);
+  };
+
+  const handleDelete = (topicToDelete: string) => {
+    onTopicsChange(selectedTopics.filter((topic) => topic !== topicToDelete));
+  };
+
   return (
-    <div>
+    <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
       <FormControl
         sx={{
           m: 1,
@@ -87,11 +105,21 @@ export default function MultipleSelectChip({ selectedTopics, onTopicsChange }: M
           multiple
           value={selectedTopics}
           onChange={handleChange}
+          open={open}
+          onOpen={onOpen}
+          onClose={onClose}
           input={<OutlinedInput id="select-multiple-chip" label="Topics" />}
           renderValue={(selected) => (
             <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
               {selected.map((value) => (
-                <Chip key={value} label={value} />
+                <Chip 
+                  key={value} 
+                  label={value} 
+                  onDelete={() => handleDelete(value)}
+                  onMouseDown={(event) => {
+                    event.stopPropagation();
+                  }}
+                />
               ))}
             </Box>
           )}
@@ -108,6 +136,6 @@ export default function MultipleSelectChip({ selectedTopics, onTopicsChange }: M
           ))}
         </Select>
       </FormControl>
-    </div>
+    </Box>
   );
 }
